@@ -26,6 +26,55 @@ def par_res(*res: list[float]) -> float:
     return sum(map(lambda x: x**-1, res)) ** -1
 
 
+@dataclass
+class BJTAmplifier:
+    """The BJT amplifier of the Amplifier Design."""
+    R_1: float
+    R_2: float
+    R_C: float
+    R_E: float
+
+    @property
+    def V_TH(self) -> float:
+        """Thevanian Voltage of the BJT transistor."""
+        return V_CC * self.R_2 / (self.R_1 + self.R_2)
+
+    @property
+    def R_TH(self) -> float:
+        """Thevanian Resistance of Q1."""
+        return par_res(self.R_1, self.R_2)
+
+    @property
+    def I_B(self) -> float:
+        """The base current of Q1."""
+        return (self.V_TH - V_BE) / (self.R_TH + (1 + beta) * self.R_E)
+
+    @property
+    def I_C(self) -> float:
+        """The collector current of Q1."""
+        return beta * self.I_B
+
+    @property
+    def I_E(self) -> float:
+        """The collector current of Q1."""
+        return (1 + beta) * self.I_B
+
+    @property
+    def V_B(self) -> float:
+        """The base voltage of Q1."""
+        return self.V_TH - self.I_B * self.R_TH
+
+    @property
+    def V_C(self) -> float:
+        """The collector voltage of Q1."""
+        return V_CC - self.I_C * self.R_C
+
+    @property
+    def V_E(self) -> float:
+        """The collector voltage of Q1."""
+        return self.I_E * self.R_E
+
+
 
 @dataclass
 class Amplifier:
