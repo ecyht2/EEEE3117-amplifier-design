@@ -2,6 +2,7 @@
 
 # pylint: disable=invalid-name, too-many-instance-attributes, too-many-public-methods
 from dataclasses import dataclass
+from typing import Tuple
 
 import numpy as np
 
@@ -21,9 +22,9 @@ V_TN = -2
 lambda_3 = 0.01
 
 
-def par_res(*res: list[float]) -> float:
+def par_res(*res: Tuple[float]) -> float:
     """Calculate the Resistance in Parallel."""
-    return sum(map(lambda x: x**-1, res)) ** -1
+    return sum(map(lambda x: x**-1, res)) ** -1 # type: ignore
 
 
 @dataclass
