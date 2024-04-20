@@ -8,7 +8,7 @@
             "name": "Run Script",
             "type": "debugpy",
             "request": "launch",
-            "program": "run.py",
+            "program": "scripts/run.py",
             "console": "integratedTerminal"
         }
     ]
