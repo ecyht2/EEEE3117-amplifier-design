@@ -72,3 +72,5 @@ if __name__ == "__main__":
 
     print("AC Analysis")
     print(f"A_v: {amp.gain}")
+    print(f"R_in: {amp.R_in}")
+    print(f"R_out: {amp.R_out}")

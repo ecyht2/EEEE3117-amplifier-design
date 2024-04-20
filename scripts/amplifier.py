@@ -178,6 +178,17 @@ class Amplifier:
         d2 = par_res(self.Q1.R_1, self.Q1.R_2, self.Q1.r_pi) + R_S
         return n1 * n2 * n3 * n4 * n5 / (d1 * d2)
 
+    @property
+    def R_in(self) -> float:
+        """The input resistance (R_in) of the amplifier."""
+        return par_res(self.Q1.R_1, self.Q1.R_2, self.Q1.r_pi)
+
+    @property
+    def R_out(self) -> float:
+        """The output resistance (R_out) of the amplifier."""
+        resistor = par_res(self.M3.r_0, self.M3.R_SS)
+        return resistor / (1 + self.M3.g_m * resistor)
+
     def is_valid(self) -> bool:
         """Check if the amplifier is valid (all transitor working at the correct region)."""
         return self.Q1.is_valid() and self.Q2.is_valid() and self.M3.is_valid()
