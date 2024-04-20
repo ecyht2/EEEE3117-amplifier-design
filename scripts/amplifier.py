@@ -196,7 +196,7 @@ class Amplifier:
 
         # Checking if V_DS1 > V_DS1(sat)
         # V_DS1(sat) = V_GS1 - V_TN
-        if V_DS1 > (V_GS1 - V_TN):
+        if V_DS1 >= (V_GS1 - V_TN) and (V_GS1 > V_TN):
             return I_D1
         # Assuming the other one is the correct I_D if the first check failed
         return I_D2
