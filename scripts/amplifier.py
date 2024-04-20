@@ -2,7 +2,6 @@
 
 # pylint: disable=invalid-name, too-many-instance-attributes, too-many-public-methods
 from dataclasses import dataclass
-from typing import Tuple
 
 import numpy as np
 
@@ -22,14 +21,15 @@ V_TN = -2
 lambda_3 = 0.01
 
 
-def par_res(*res: Tuple[float]) -> float:
+def par_res(*res: float) -> float:
     """Calculate the Resistance in Parallel."""
-    return sum(map(lambda x: x**-1, res)) ** -1 # type: ignore
+    return sum(map(lambda x: x**-1, res)) ** -1
 
 
 @dataclass
 class BJTAmplifier:
     """The BJT amplifier of the Amplifier Design."""
+
     R_1: float
     R_2: float
     R_C: float
@@ -74,7 +74,6 @@ class BJTAmplifier:
     def V_E(self) -> float:
         """The collector voltage of Q1."""
         return self.I_E * self.R_E
-
 
 
 @dataclass
@@ -182,7 +181,7 @@ class Amplifier:
     def I_D(self) -> float:
         """The Drain current of M3."""
         a = K_n * self.R_SS**2
-        b = -2 * K_n * self.R_SS * self.V_G + 2 * K_n * self.R_SS * V_TN - 1 
+        b = -2 * K_n * self.R_SS * self.V_G + 2 * K_n * self.R_SS * V_TN - 1
         c = K_n * (V_TN**2 + self.V_G**2 - 2 * self.V_G * V_TN)
 
         # Applying Quadratic Equation
