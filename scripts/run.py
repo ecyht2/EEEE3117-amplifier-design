@@ -7,7 +7,7 @@ from itertools import islice
 
 import numpy as np
 
-from amplifier import Amplifier
+from amplifier import Amplifier, BJTAmplifier, FETAmplifier
 
 
 def sliding_window(iterable: Iterable, n: int) -> Iterable:
@@ -40,35 +40,35 @@ potential_resistors = np.fromiter(
 
 
 if __name__ == "__main__":
-    Q1 = (
+    Q1 = BJTAmplifier(
         1e3,
         501,
         1e3,
         500,
     )
-    Q2 = (
+    Q2 = BJTAmplifier(
         6e3,
         8e3,
         2e3,
         3.8e3,
     )
-    M3 = (1e3, 6.5e3, 80e3)
-    amp = Amplifier(*Q1, *Q2, *M3)
+    M3 = FETAmplifier(1e3, 6.5e3, 80e3)
+    amp = Amplifier(Q1, Q2, M3)
 
     print("Transistor Current")
-    print(f"Q1: I_B1: {amp.I_B1:.3g}, I_C1: {amp.I_C1:.3g}, I_E1: {amp.I_E1:.3g}")
-    print(f"Q2: I_B2: {amp.I_B2:.3g}, I_C2: {amp.I_C2:.3g}, I_E2: {amp.I_E2:.3g}")
-    print(f"M3: I_D: {amp.I_D:.3g}")
+    print(f"Q1: I_B: {Q1.I_B:.3g}, I_C: {Q1.I_C:.3g}, I_E: {Q1.I_E:.3g}")
+    print(f"Q2: I_B: {Q2.I_B:.3g}, I_C: {Q2.I_C:.3g}, I_E: {Q2.I_E:.3g}")
+    print(f"M3: I_D: {M3.I_D:.3g}")
 
     print("Transistor Validity")
-    print(f"Q1: {amp.Q1_valid()}, V_C: {amp.V_C1}, V_B: {amp.V_B1}, V_E: {amp.V_E1}")
-    print(f"Q2: {amp.Q2_valid()}, V_C: {amp.V_C2}, V_B: {amp.V_B2}, V_E: {amp.V_E2}")
-    print(f"M3: {amp.M3_valid()}, V_D: {amp.V_D}, V_G: {amp.V_G}, V_S: {amp.V_S}")
+    print(f"Q1: {Q1.is_valid()}, V_C: {Q1.V_C}, V_B: {Q1.V_B}, V_E: {Q1.V_E}")
+    print(f"Q2: {Q2.is_valid()}, V_C: {Q2.V_C}, V_B: {Q2.V_B}, V_E: {Q2.V_E}")
+    print(f"M3: {M3.is_valid()}, V_D: {M3.V_D}, V_G: {M3.V_G}, V_S: {M3.V_S}")
 
     print("AC Values")
-    print(f"Q1: g_m: {amp.g_m1:.3f}, r_0: {amp.r_01:.3f}, r_pi: {amp.r_pi1:.3f}")
-    print(f"Q2: g_m: {amp.g_m2:.3f}, r_0: {amp.r_02:.3f}, r_pi: {amp.r_pi2:.3f}")
-    print(f"M3: g_m: {amp.g_m3:.3f}, r_0: {amp.r_03:.3f}")
+    print(f"Q1: g_m: {Q1.g_m:.3f}, r_0: {Q1.r_0:.3f}, r_pi: {Q1.r_pi:.3f}")
+    print(f"Q2: g_m: {Q2.g_m:.3f}, r_0: {Q2.r_0:.3f}, r_pi: {Q2.r_pi:.3f}")
+    print(f"M3: g_m: {M3.g_m:.3f}, r_0: {M3.r_0:.3f}")
 
     print("AC Analysis")
     print(f"A_v: {amp.gain}")
